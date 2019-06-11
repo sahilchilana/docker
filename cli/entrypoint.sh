@@ -1,8 +1,9 @@
 #!/bin/sh -l
-docker pull amazon/aws-stepfunctions-local
 export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
 export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
 export AWS_DEFAULT_REGION=us-east-1
+docker pull amazon/aws-stepfunctions-local
+docker run -p 8083:8083 amazon/aws-stepfunctions-local
 aws stepfunctions --endpoint http://localhost:8083 create-state-machine --definition '{
               "Comment": "Add two numbers and then subtact the result of add with another number",
               "StartAt": "AddNumbers",
@@ -26,4 +27,3 @@ aws stepfunctions --endpoint http://localhost:8083 create-state-machine --defini
               }
             }' --name "statemachine" --role-arn "arn:aws:iam::670868576168:role/githubactiontesting-AddFunctionRole-828QDZ3VB97V"
       
-docker run -p 8083:8083 amazon/aws-stepfunctions-local
